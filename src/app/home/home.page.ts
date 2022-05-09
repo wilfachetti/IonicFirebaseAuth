@@ -11,20 +11,19 @@ export class HomePage {
   constructor(private router: Router, public loadingController: LoadingController) {
   }
 
-  ionViewWillEnter() {
-  }
-
   async presentLoading() {
     const loading = await this.loadingController.create({
       cssClass: 'my-custom-class',
       message: 'Please wait...',
-      duration: 500
+      duration: 1000
     });
-    await loading.present();
 
-    this.router.navigate(['contacts']);
+    loading.present();
+
+    this.router.navigate(['contacts']).catch((except) => {
+      console.log(except);
+    });
 
     await loading.onDidDismiss();
-    console.log('Loading dismissed!');
   }
 }

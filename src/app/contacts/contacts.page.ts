@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Contact } from '../model/contact';
 import { ContactService } from '../service/contact.service';
 import 'hammerjs';
 import { Observable } from 'rxjs';
 import { AlertController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { IContact } from '../model/i-contact';
 
 @Component({
   selector: 'app-contacts',
@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 })
 export class ContactsPage implements OnInit {
 
-  items: Observable<Contact[]>;
+  items: Observable<IContact[]>;
 
   constructor(
     private contactService: ContactService,
@@ -26,16 +26,12 @@ export class ContactsPage implements OnInit {
     this.items = this.contactService.readContacts();
   }
 
-  ionViewDidEnter() {
-  }
-
-  create(contact: Contact){
+  create(contact: IContact){
     this.contactService.insertContact(contact);
   }
 
-  update(contact) {
+  update(contact: IContact) {
     this.router.navigate(['contact', {item: JSON.stringify(contact)}]);
-    //this.contactService.updateContact(contact);
   }
 
   delete(id) {
@@ -44,7 +40,7 @@ export class ContactsPage implements OnInit {
     });
   }
 
-  async apresentaAlerta(item: Contact) {
+  async showAlert(item: IContact) {
     const alert = await this.alertController.create({
       message: 'Select: ',
       buttons: [
@@ -62,9 +58,9 @@ export class ContactsPage implements OnInit {
     alert.present();
   }
 
-  async toast(mensagem: string) {
+  async toast(showMessage: string) {
     const toast = await this.toastController.create({
-      message: mensagem,
+      message: showMessage,
       duration: 2000,
       position: 'middle'
     });
