@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{title}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item>
+    <ion-label>Name:</ion-label> 
+    <ion-input [(ngModel)]="contact.name" ></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>e-mail:</ion-label>
+    <ion-input [(ngModel)]="contact.email" ></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Phone:</ion-label>
+    <ion-input [(ngModel)]="contact.phone" ></ion-input>
+  </ion-item>
+  <ion-button type="submmit" (click)="saveContact()" expand="block">Save</ion-button>
+</ion-content>

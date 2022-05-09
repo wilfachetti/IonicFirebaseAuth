@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>contacts</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-button type="submit" [routerLink]="['/contact']" expand="block">New Contact</ion-button>
+  <ion-card *ngFor="let item of items | async" (pressup)="apresentaAlerta(item)" >
+    <ion-card-header >
+      <ion-card-title>{{ item.name }}</ion-card-title>
+      <ion-card-subtitle>{{ item.phone }}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content > 
+      <ion-item>Name: {{ item.name }} </ion-item>
+      <ion-item>e-mail: {{ item.email }} </ion-item>
+      <ion-item>Phone: {{ item.phone }} </ion-item>
+    </ion-card-content>
+  </ion-card>
+  <ion-button type="submit" [routerLink]="['/home']" expand="block">Return</ion-button>
+</ion-content>
