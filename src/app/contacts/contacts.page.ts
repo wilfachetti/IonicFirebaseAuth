@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ContactService } from '../service/contact.service';
 import 'hammerjs';
 import { Observable } from 'rxjs';
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController, ToastController, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { IContact } from '../model/i-contact';
+import { AuthenticationService } from '../service/authentication.service';
 
 @Component({
   selector: 'app-contacts',
@@ -17,13 +18,28 @@ export class ContactsPage implements OnInit {
 
   constructor(
     private contactService: ContactService,
+    private authenticationService: AuthenticationService,
     private router: Router,
     private alertController: AlertController,
-    private toastController: ToastController
-  ) {}
+    private toastController: ToastController,
+    private loadingController: LoadingController
+  ) {
+  }
 
   ngOnInit() {
     this.items = this.contactService.readContacts();
+  }
+
+  ionViewWillEnter() {
+    this.presentLoading();
+  }
+
+  ionViewDidEnter() {
+    this.dismissLoading();
+  }
+
+  ionViewWillLeave() {
+    //this.dismissLoading();
   }
 
   create(contact: IContact){
@@ -58,12 +74,25 @@ export class ContactsPage implements OnInit {
     alert.present();
   }
 
-  async toast(showMessage: string) {
-    const toast = await this.toastController.create({
+  toast(showMessage: string) {
+    this.toastController.create({
       message: showMessage,
       duration: 2000,
       position: 'middle'
+    }).then((toast) => {
+      toast.present();
     });
-    toast.present();
   }
+
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      message: 'Please wait...',
+    });
+    await loading.present();
+  }
+
+  dismissLoading() {
+    return this.loadingController.dismiss();
+  }
+
 }

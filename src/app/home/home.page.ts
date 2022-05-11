@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
+import { AuthenticationService } from '../service/authentication.service';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -8,22 +9,18 @@ import { LoadingController } from '@ionic/angular';
 })
 export class HomePage {
 
-  constructor(private router: Router, public loadingController: LoadingController) {
+  constructor(
+    private router: Router,
+    private loadingController: LoadingController,
+    private authenticationService: AuthenticationService) {
   }
 
-  async presentLoading() {
-    const loading = await this.loadingController.create({
-      cssClass: 'my-custom-class',
-      message: 'Please wait...',
-      duration: 1000
-    });
-
-    loading.present();
-
-    this.router.navigate(['contacts']).catch((except) => {
-      console.log(except);
-    });
-
-    await loading.onDidDismiss();
+  checkLoggedIn() {
+    if(this.authenticationService.isLoggedIn) {
+      //this.presentLoading();
+      this.router.navigate(['contacts']);
+    } else {
+      this.router.navigate(['login']);
+    }
   }
 }

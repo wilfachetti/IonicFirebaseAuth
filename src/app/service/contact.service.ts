@@ -1,3 +1,5 @@
+import { LoadingController } from '@ionic/angular';
+import { AuthenticationService } from './authentication.service';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
@@ -8,24 +10,32 @@ import { IContact } from '../model/i-contact';
 })
 
 export class ContactService {
-  collectionName = 'contacts/';
+  userUid: any;
+  collectionName: any;
   collection: any;
 
-  constructor(private db: AngularFirestore) {}
+  constructor(
+    private angularFirestore: AngularFirestore,
+    private authenticationService: AuthenticationService,
+    private loadingController: LoadingController
+  ) {
+    this.userUid = authenticationService.userData.uid;
+    this.collectionName = 'users/' + this.userUid + '/contacts/';
+  }
 
   readContacts() {
-    this.collection = this.db.collection(this.collectionName)
+    this.collection = this.angularFirestore.collection(this.collectionName)
       .valueChanges({ idField: 'id' , name: 'name', email: 'email', phone:'phone' }) as Observable<IContact[]>;
 
     return this.collection;
   }
 
   insertContact(contact: IContact){
-    return this.db.collection(this.collectionName).add(contact);
+    return this.angularFirestore.collection(this.collectionName).add(contact);
   }
 
   updateContact(contact: IContact){
-    return this.db.doc(this.collectionName + contact.id).update({
+    return this.angularFirestore.doc(this.collectionName + contact.id).update({
       name: contact.name,
       email: contact.email,
       phone: contact.phone
@@ -33,7 +43,7 @@ export class ContactService {
   }
 
   deleteContact(contactId: string){
-    return this.db.doc(this.collectionName + contactId).delete();
+    return this.angularFirestore.doc(this.collectionName + contactId).delete();
   }
 
 }

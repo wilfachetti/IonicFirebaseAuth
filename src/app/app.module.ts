@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
 
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { AuthenticatedUserGuard } from './guard/authenticated-user.guard';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -23,6 +24,7 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    AuthenticatedUserGuard
   ],
   bootstrap: [AppComponent],
 })

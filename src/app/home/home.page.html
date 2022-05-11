@@ -12,11 +12,54 @@
       <ion-title size="large">Ionic with Firebase</ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-button (click)="presentLoading()" expand="block" color="primary">
+  <ion-button (click)="checkLoggedIn()" expand="block" color="primary">
     Contacts
   </ion-button>
-
 </ion-content>
 
+<ion-content class="auth-form">
+  <ion-grid>
+    <ion-row>
+      <ion-col class="ion-align-self-center">
+        <ion-button [routerLink]="['/registration']" expand="block" color="primary">Register</ion-button>
+        <span class="already">Already a user?</span>
+        <ion-button [routerLink]="['/login']" expand="block" color="danger">Sign In</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
 
+<!--
+<ion-content>
+  <ion-item lines="full">
+    <ion-label position="floating">Email</ion-label>
+    <ion-input type="text" #email required></ion-input>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label position="floating">Password</ion-label>
+    <ion-input type="password" #password required></ion-input>
+  </ion-item>
+  <ion-row>
+    <ion-col>
+      <ion-button type="submit" (click)="logIn(email, password)" expand="block">Login</ion-button>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      <ion-button expand="block" color="warning" [routerLink]="['/password-reset']">
+        Password Reset
+      </ion-button>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <ion-button type="submit" color="danger" (click)="authService.GoogleAuth()" expand="block">
+        Login with Google
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-content>
+
+-->
 
